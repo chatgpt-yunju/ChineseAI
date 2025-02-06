@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>智能助手DeepSeek-R1-满血版(deployed by 常云举)</title>
+    <title>智能助手DeepSeek-R1-满血版(点击右下角蓝色悬浮球开始对话)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
         /* 基础样式 */
@@ -53,38 +53,4 @@
         }
     </style>
 </head>
-<body>
-    <!-- 引导提示 -->
-    <div class="guide-tips">
-        👉 点击右下角蓝色悬浮球开始对话
-        <div style="font-size:12px; opacity:0.8; margin-top:4px;">
-            (5秒后自动隐藏)
-        </div>
-    </div>
-
-    <!-- 悬浮球容器 -->
-    <div id="dingtalk-orb-container"></div>
-
-    <!-- 钉钉配置 -->
-    <script>
-      window.dingtalkAgentConfig = {
-        code: '3AKYMk5bEY',
-        position: 'left', // 固定在左侧
-        offset: {
-            bottom: '32px',
-            left: '24px' // 左侧间距
-        },
-        orbIcon: '', // 白色对话图标
-        onReady: () => { // 加载完成后隐藏提示
-            setTimeout(() => {
-                document.querySelector('.guide-tips').style.display = 'none';
-            }, 5000)
-        }
-      }
-    </script>
-    <script 
-      src="https://g.alicdn.com/dingding-frontend/dd-lui-inside/0.0.5/magicOrb.js" 
-      defer>
-    </script>
-</body>
 </html>
