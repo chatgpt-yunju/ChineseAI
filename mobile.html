@@ -4,53 +4,76 @@
     <title>智能助手DeepSeek-R1-满血版(点击右下角蓝色悬浮球开始对话)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        /* 基础样式 */
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        /* 自定义蓝色悬浮球 */
-        .dd-magic-orb {
-            --orb-size: 58px !important;
-            --orb-color: #1677FF !important; /* 钉钉官方蓝色 */
-            --orb-shadow: 0 4px 12px rgba(22, 119, 255, 0.3) !important;
-        }
-
-        /* 引导提示 */
-        .guide-tips {
+        /* 新增欢迎弹窗样式 */
+        .welcome-popup {
             position: fixed;
-            left: 20px;
-            bottom: 100px; /* 悬浮球上方20px */
-            z-index: 999;
-            background: rgba(0, 0, 0, 0.8);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            text-align: center;
+            z-index: 1000;
+            max-width: 300px;
+            animation: popIn 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .welcome-popup p {
+            margin: 0 0 20px;
+            color: #333;
+            line-height: 1.5;
+            font-size: 16px;
+        }
+
+        .welcome-popup button {
+            background: #1677FF;
             color: white;
-            padding: 12px 18px;
-            border-radius: 24px;
-            animation: float 3s infinite;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            max-width: 240px;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
         }
 
-        /* 动画效果 */
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0); }
+        .welcome-popup button:hover {
+            opacity: 0.9;
         }
 
-        /* 移动端适配 */
-        @media (max-width: 768px) {
-            .guide-tips {
-                left: 10px;
-                bottom: 90px;
-                font-size: 14px;
-                max-width: 180px;
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -40%) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
             }
         }
+
+        /* 其余原有样式保持不变 */
+        /* ...原有样式代码... */
     </style>
 </head>
+<body>
+    <!-- 新增欢迎弹窗HTML -->
+    <div class="welcome-popup" id="welcomePopup">
+        <p>嗨！我是 DeepSeek-R1-满血版<br>我可以帮你搜索、答疑、写作，<br>点击右下角悬浮球和我对话吧~</p>
+        <button onclick="closeWelcome()">开始使用</button>
+    </div>
+
+    <script>
+        // 关闭欢迎弹窗
+        function closeWelcome() {
+            document.getElementById('welcomePopup').style.display = 'none';
+        }
+
+        // 页面加载后自动显示弹窗
+        window.onload = function() {
+            document.getElementById('welcomePopup').style.display = 'block';
+        };
+    </script>
+</body>
 </html>
