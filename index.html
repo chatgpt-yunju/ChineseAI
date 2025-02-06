@@ -1,123 +1,99 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>DeepSeek-R1-满血版智能助手</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        :root {
-            --primary-color: #1677ff;
-            --text-dark: #333;
-            --text-light: #666;
+        /* 悬浮球基础样式 */
+        .float-ball {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #007bff;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.3s;
         }
 
-        /* 重置默认样式 */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        html, body {
-            margin: 0;
-            padding: 0;
+        /* 手机端遮罩层样式 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 
-                       "Segoe UI", Roboto, "PingFang SC", 
-                       "Hiragino Sans GB", "Microsoft YaHei", 
-                       sans-serif;
-            background: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            -webkit-tap-highlight-color: transparent;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
         }
 
-        /* 文字容器 */
-        .ui-container {
-            width: 90%;
-            max-width: 680px;
-            padding: 1.5rem;
-            background: #fff;
-            border-radius: 1rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            animation: fadeIn 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        h1 {
-            font-size: clamp(1.25rem, 5vw, 1.5rem);
-            margin: 0 0 1rem;
-            color: var(--text-dark);
-            line-height: 1.4;
-        }
-
-        p {
-            font-size: clamp(0.875rem, 4vw, 1rem);
-            color: var(--text-light);
-            margin: 0;
-            line-height: 1.6;
-        }
-
-        /* 动画 */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 暗黑模式 */
-        @media (prefers-color-scheme: dark) {
-            body { background: #121212; }
-            .ui-container {
-                background: #1e1e1e;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        /* 移动端样式 */
+        @media (max-width: 768px) {
+            .float-ball:active {
+                transform: scale(0.9);
             }
-            h1 { color: #fff; }
-            p { color: #ccc; }
+            
+            body.overlay-active {
+                overflow: hidden;
+            }
         }
 
-        /* 移动端优化 */
-        @media (max-width: 480px) {
-            .ui-container {
-                padding: 1rem;
-                border-radius: 0.75rem;
+        /* 电脑端隐藏遮罩层 */
+        @media (min-width: 769px) {
+            .overlay {
+                display: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="ui-container">
-        <h1>嗨！我是 DeepSeek-R1-满血版</h1>
-        <p>我可以帮你搜索、答疑、写作，点击右下角悬浮球和我对话吧~</p>
+    <!-- 页面内容 -->
+    <div class="content">
+        <h1>页面内容</h1>
+        <p>请尝试在手机端点击悬浮球</p>
     </div>
 
-    <div id="dingtalk-orb-container"></div>
+    <!-- 悬浮球 -->
+    <div class="float-ball"></div>
+    
+    <!-- 遮罩层 -->
+    <div class="overlay"></div>
 
     <script>
-      // 悬浮球配置
-      window.dingtalkAgentConfig = {
-        code: '3AKYMk5bEY',
-        position: 'right',
-        offset: {
-            bottom: '5vh',   // 使用视口单位
-            right: '5vw'
-        },
-        orbIcon: '',
-        onReady: () => {
-            console.log('悬浮球初始化完成');
+        // 设备检测函数
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
-      }
 
-      // 加载状态管理
-      window.addEventListener('load', () => {
-          document.body.style.cursor = 'default';
-          sessionStorage.setItem('firstVisit', 'true');
-      });
-    </script>
-    
-    <script 
-      src="https://g.alicdn.com/dingding-frontend/dd-lui-inside/0.0.5/magicOrb.js" 
-      defer
-      crossorigin="anonymous">
+        // 元素获取
+        const floatBall = document.querySelector('.float-ball');
+        const overlay = document.querySelector('.overlay');
+        const body = document.body;
+
+        // 初始化逻辑
+        if (isMobile()) {
+            // 移动端逻辑
+            floatBall.addEventListener('click', function() {
+                overlay.style.display = 'block';
+                body.classList.add('overlay-active');
+            });
+
+            // 点击遮罩层关闭
+            overlay.addEventListener('click', function() {
+                overlay.style.display = 'none';
+                body.classList.remove('overlay-active');
+            });
+        } else {
+            // 桌面端悬浮效果
+            floatBall.style.cursor = 'pointer';
+            floatBall.addEventListener('mouseenter', () => {
+                floatBall.style.transform = 'scale(1.1)';
+            });
+            floatBall.addEventListener('mouseleave', () => {
+                floatBall.style.transform = 'scale(1)';
+            });
+        }
     </script>
 </body>
 </html>
