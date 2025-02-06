@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <h1>智能助手DeepSeek-R1-满血版(deployed by 常云举)</h1>
+
+  <!-- 悬浮球配置 -->
+  <script>
+    window.dingtalkAgentConfig = {
+      code: '3AKYMk5bEY',
+      orbIcon: '',
+    };
+  </script>
+  <script src="https://g.alicdn.com/dingding-frontend/dd-lui-inside/0.0.5/magicOrb.js" defer></script>
+
+  <!-- 自动点击逻辑 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 方法1：监听元素变化
+      const observer = new MutationObserver((mutations) => {
+        const orb = document.querySelector('.dd-magic-orb');
+        if (orb) {
+          observer.disconnect();
+          console.log('检测到悬浮球，尝试点击...');
+          orb.click();
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      // 方法2：延时检测（双保险）
+      setTimeout(() => {
+        const orb = document.querySelector('.dd-magic-orb');
+        if (orb) {
+          console.log('延时点击触发');
+          orb.click();
+        }
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
