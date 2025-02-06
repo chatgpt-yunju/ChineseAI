@@ -1,79 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>智能助手DeepSeek-R1-满血版(点击右下角蓝色悬浮球开始对话)</title>
+    <title>DeepSeek-R1-满血版智能助手(点击右下角蓝色悬浮球开始对话)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        /* 新增欢迎弹窗样式 */
-        .welcome-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            text-align: center;
-            z-index: 1000;
-            max-width: 300px;
-            animation: popIn 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        /* 基础样式 */
+        html, , , , body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent; /* 禁用点击高光 */
         }
 
-        .welcome-popup p {
-            margin: 0 0 20px;
-            color: #333;
-            line-height: 1.5;
-            font-size: 16px;
+        /* 自定义悬浮球样式（可选） */
+        .dd-magic-orb {
+            --orb-size: 56px !important; /* 控制悬浮球大小 */
+            --orb-color: #0080FF !important; /* 主色调与钉钉一致 */
+            --orb-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
         }
-
-        .welcome-popup button {
-            background: #1677FF;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 20px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .welcome-popup button:hover {
-            opacity: 0.9;
-        }
-
-        @keyframes popIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -40%) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        /* 其余原有样式保持不变 */
-        /* ...原有样式代码... */
     </style>
 </head>
 <body>
-    <!-- 新增欢迎弹窗HTML -->
-    <div class="welcome-popup" id="welcomePopup">
-        <p>嗨！我是 DeepSeek-R1-满血版<br>我可以帮你搜索、答疑、写作，<br>点击右下角悬浮球和我对话吧~</p>
-        <button onclick="closeWelcome()">开始使用</button>
-    </div>
+    <!-- 悬浮球容器 -->
+    <div id="dingtalk-orb-container"></div>
 
+    <!-- 钉钉官方配置 -->
     <script>
-        // 关闭欢迎弹窗
-        function closeWelcome() {
-            document.getElementById('welcomePopup').style.display = 'none';
+      window.dingtalkAgentConfig = {
+        code: '3AKYMk5bEY',
+        channel: '', // 渠道标识（可选）
+        orbIcon: 'https://example.com/custom-icon.png', // 建议使用绝对路径
+        position: 'right', // 初始位置 left/right
+        offset: { 
+            bottom: '32px', // 距离底部偏移
+            right: '24px'  // 当position=right时生效
+        },
+        debug: false // 开启调试模式
+      }
+    </script>
+    <script 
+      src="https://g.alicdn.com/dingding-frontend/dd-lui-inside/0.0.5/magicOrb.js" 
+      defer>
+    </script>
+
+    <!-- 移动端优化脚本 -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // 防止悬浮球被键盘顶起
+        if('visualViewport' in window) {
+            window.visualViewport.addEventListener('resize', function() {
+                document.documentElement.style.height = window.visualViewport.height + 'px';
+            });
         }
 
-        // 页面加载后自动显示弹窗
-        window.onload = function() {
-            document.getElementById('welcomePopup').style.display = 'block';
-        };
+        // 点击穿透处理
+        document.body.addEventListener('click', function(e) {
+            if(e.target.closest('.dd-magic-orb')) {
+                e.stopPropagation();
+            }
+        }, true);
+      });
     </script>
 </body>
 </html>
