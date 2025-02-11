@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>点击右下角蓝色悬浮球开始对话(智能助手DeepSeek-R1-满血版)</title>
+    <title>DeepSeek智能助手（Deployed by 常云举）</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
         /* 基础样式 */
@@ -10,57 +10,64 @@
             padding: 0;
             height: 100%;
             overflow: hidden;
-            -webkit-tap-highlight-color: transparent; /* 禁用点击高光 */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
-        /* 自定义悬浮球样式（可选） */
-        .dd-magic-orb {
-            --orb-size: 56px !important; /* 控制悬浮球大小 */
-            --orb-color: #0080FF !important; /* 主色调与钉钉一致 */
-            --orb-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        /* UI 文字容器 */
+        .ui-container {
+            max-width: 80%;
+            padding: 24px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* 防止内容溢出 */
+            word-wrap: break-word; /* 长文本自动换行 */
         }
+
+        .ui-container h1 {
+            font-size: 24px;
+            margin: 0 0 16px;
+            color: #333;
+        }
+
+        .ui-container p {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+        }
+
     </style>
 </head>
 <body>
+    <!-- UI 文字内容 -->
+    <div class="ui-container">
+        <h1>嗨！我是 DeepSeek-R1-满血版</h1>
+        <p>我可以帮你搜索、答疑、写作，请把你的任务交给我吧~</p>
+    </div>
+
     <!-- 悬浮球容器 -->
     <div id="dingtalk-orb-container"></div>
 
-    <!-- 钉钉官方配置 -->
+    <!-- 钉钉配置 -->
     <script>
       window.dingtalkAgentConfig = {
-        code: '3AKYMk5bEY',
-        channel: '', // 渠道标识（可选）
-        orbIcon: '', // 建议使用绝对路径
-        position: 'right', // 初始位置 left/right
-        offset: { 
-            bottom: '32px', // 距离底部偏移
-            right: '24px'  // 当position=right时生效
+        code: 'g60xDd6xQe',
+        position: : 'right', , // 固定在右侧
+        offset: {
+            bottom: '32px',
+            right: '24px' // 右侧间距
         },
-        debug: false // 开启调试模式
+        orbIcon: '', // 删除图标，留空
       }
     </script>
     <script 
       src="https://g.alicdn.com/dingding-frontend/dd-lui-inside/0.0.5/magicOrb.js" 
       defer>
-    </script>
-
-    <!-- 移动端优化脚本 -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // 防止悬浮球被键盘顶起
-        if('visualViewport' in window) {
-            window.visualViewport.addEventListener('resize', function() {
-                document.documentElement.style.height = window.visualViewport.height + 'px';
-            });
-        }
-
-        // 点击穿透处理
-        document.body.addEventListener('click', function(e) {
-            if(e.target.closest('.dd-magic-orb')) {
-                e.stopPropagation();
-            }
-        }, true);
-      });
     </script>
 </body>
 </html>
